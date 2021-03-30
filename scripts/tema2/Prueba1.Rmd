@@ -1,0 +1,84 @@
+---
+title: "Prueba1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reticulate
+
+```{r}
+library(reticulate)
+use_python("C:/Users/Xenot/anaconda3/python.exe", required = TRUE)
+os <- import("os")
+os$listdir(".")
+```
+
+```{r}
+#source_python("add.py")
+```
+
+```{r}
+np <- import("numpy", convert=FALSE)
+
+x <- np$array(c(1:4))
+sum <- x$cumsum()
+print(sum)
+
+py_to_r(sum)
+```
+
+## Ayuda
+
+```{r}
+py_help(os$chdir)
+```
+
+```{r}
+datos <- iris
+head(datos)
+datos_py <- r_to_py(datos)
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+
+r.datos_py.head()
+
+```
+
+## Sparse Matrix
+
+```{r}
+library(Matrix)
+N <- 6
+set.seed(123)
+
+sparse_mat <- sparseMatrix(
+  i = sample(N,N, replace=F),
+  j = sample(N,N, replace=F),
+  x = runif(N),
+  dims = c(N,N)
+)
+
+sparse_mat
+
+sparse_mat_py <- r_to_py(sparse_mat)
+```
+
+```{python}
+r.sparse_mat_py
+
+```
+
+```{r}
+py_to_r(sparse_mat_py)
+```
+
+
+
+
+
